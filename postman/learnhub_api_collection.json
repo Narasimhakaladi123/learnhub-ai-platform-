@@ -1,0 +1,180 @@
+{
+  "info": {
+    "_postman_id": "learnhub-fullstack-ai-api-2025",
+    "name": "LearnHub AI Platform API",
+    "description": "Production REST API Collection for LearnHub - Career Intelligence & Learning Roadmap Platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register Student",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"alex.new@learnhub.com\",\n  \"password\": \"Alex@1234\",\n  \"confirmPassword\": \"Alex@1234\",\n  \"fullName\": \"Alex Mercer\",\n  \"degree\": \"B.Tech Computer Science\",\n  \"branch\": \"CSE\",\n  \"targetCareer\": \"Full Stack Java Developer\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/register" }
+          }
+        },
+        {
+          "name": "Login (Generate JWT)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.data && jsonData.data.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"student@learnhub.com\",\n  \"password\": \"Student@123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login" }
+          }
+        },
+        {
+          "name": "Get Current Authenticated User",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/me" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Career Paths & Skills",
+      "item": [
+        {
+          "name": "Get All Career Tracks",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/careers" }
+          }
+        },
+        {
+          "name": "Get Career by Slug",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/careers/slug/full-stack-java-developer" }
+          }
+        },
+        {
+          "name": "Get All Skills",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/skills" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Student Profile & Dashboard",
+      "item": [
+        {
+          "name": "Get Student Profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/profile" }
+          }
+        },
+        {
+          "name": "Get Dashboard Summary Metrics",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/profile/dashboard" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "AI Diagnostics & Roadmaps",
+      "item": [
+        {
+          "name": "Get Skill Gaps for Target Career",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/skill-gaps" }
+          }
+        },
+        {
+          "name": "Get Active Learning Roadmap",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/roadmaps/active" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "AI Mock Interview",
+      "item": [
+        {
+          "name": "Start Mock Interview Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetRole\": \"Full Stack Java Developer\",\n  \"difficultyLevel\": \"MID\",\n  \"questionCount\": 3\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/interviews/start" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "AI Career Assistant",
+      "item": [
+        {
+          "name": "Send AI Advisor Prompt",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"What is the most effective way to prepare for Spring Boot and MySQL system design questions?\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/chat/send" }
+          }
+        }
+      ]
+    }
+  ]
+}

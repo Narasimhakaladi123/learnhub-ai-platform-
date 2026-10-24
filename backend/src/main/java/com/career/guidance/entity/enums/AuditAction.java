@@ -1,0 +1,15 @@
+package com.career.guidance.entity.enums;
+
+public enum AuditAction {
+    USER_REGISTER,
+    USER_LOGIN,
+    PROFILE_UPDATE,
+    RESUME_UPLOAD,
+    RESUME_ANALYZE,
+    RECOMMENDATION_GENERATE,
+    ASSESSMENT_SUBMIT,
+    ROADMAP_UPDATE,
+    INTERVIEW_PRACTICE,
+    AI_CHAT,
+    ADMIN_ACTION
+}

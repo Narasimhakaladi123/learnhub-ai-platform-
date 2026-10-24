@@ -1,0 +1,21 @@
+# Compiled class files & build artifacts
+backend/target/
+frontend/dist/
+frontend/node_modules/
+
+# Maven
+.mvn/
+*.jar
+*.war
+
+# Environment & Logs
+*.log
+.env
+.env.local
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
