@@ -67,6 +67,9 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)) // for H2 console if used
             .authorizeHttpRequests(auth -> auth
+                // Public frontend static files & SPA client routes
+                .requestMatchers("/", "/index.html", "/assets/**", "/favicon.ico", "/*.png", "/*.svg", "/error",
+                    "/dashboard", "/careers", "/skill-gap", "/roadmap", "/assessments", "/interview", "/resume", "/admin").permitAll()
                 // Public auth endpoints
                 .requestMatchers("/api/auth/**").permitAll()
                 // Public careers & skills catalog browsing
